@@ -1,0 +1,7 @@
+astal-idle-notify (0~git20260923.cbcd9f4-1) stonking; urgency=medium
+
+  * Initial packaging, from the unity-desktop/astal fork (DEP-14 layout:
+    debian/ lives beside the library on the ubuntu/latest branch).
+  * Upstream publishes no release tags; built from upstream commit cbcd9f4.
+
+ -- Muqtadir <contact@muqtxdir.com>  Thu, 24 Sep 2026 17:48:07 +0530

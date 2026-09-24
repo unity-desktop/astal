@@ -1,0 +1,19 @@
+# In-place builds: results land in the library's parent directory, build state in debian/.
+*.deb
+*.ddeb
+*.dsc
+*.changes
+*.buildinfo
+*.orig.tar.*
+*.debian.tar.*
+obj-*/
+# Every debian/ subdirectory is build output except these.
+**/debian/*/
+!**/debian/patches/
+!**/debian/source/
+!**/debian/tests/
+!**/debian/upstream/
+**/debian/debhelper-build-stamp
+**/debian/files
+**/debian/*.substvars
+**/debian/*.debhelper.log

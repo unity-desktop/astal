@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@ --buildsystem=meson
+
+override_dh_missing:
+	dh_missing --list-missing
+
+# astal's gir.py writes <include name=".." version=".." /> with a space before
+# "/>", which dh_girepository's parser does not recognise, so it would compute
+# no typelib or GIR dependencies at all. The XML is equivalent either way.
+override_dh_girepository:
+	sed -i -E 's,"[[:space:]]+/>,"/>,' debian/*/usr/share/gir-1.0/*.gir
+	dh_girepository
+
+# The orig tarball is this library's directory, taken from git. Symlinks
+# such as gir.py -> ../gir.py point outside it, so they are dereferenced;
+# debian/source/options tells dpkg-source to ignore the resulting
+# file-versus-symlink difference in the working tree.
+include /usr/share/dpkg/pkg-info.mk
+ORIG := ../$(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM).orig.tar.xz
+
+get-orig-source:
+	git ls-files -z -- . ':!debian' \
+	  | tar --null -T - --dereference --sort=name \
+	        --mtime=@$(SOURCE_DATE_EPOCH) --owner=0 --group=0 --numeric-owner \
+	        --transform 's,^,$(DEB_SOURCE)-$(DEB_VERSION_UPSTREAM)/,' -cf - \
+	  | xz -6 -T1 > $(ORIG)
+
+.PHONY: get-orig-source
