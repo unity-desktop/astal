@@ -1,0 +1,46 @@
+---
+name: astal-wl4
+
+on:
+  push:
+    branches: [ubuntu/latest]
+    paths: &paths
+      - lib/wl/wl4/**
+      - lib/gir.py
+      - .github/workflows/astal-wl4.yaml
+  pull_request:
+    branches: [ubuntu/latest]
+    types: [opened, synchronize, reopened, closed]
+    paths: *paths
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    if: github.event.action != 'closed'
+    uses: unity-desktop/workflows/.github/workflows/build-deb.yaml@main
+    with:
+      path: lib/wl/wl4
+      orig-source: true
+      deps: astal-wl
+
+  release:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref_name == 'ubuntu/latest'
+    uses: unity-desktop/workflows/.github/workflows/release-deb.yaml@main
+    with:
+      path: lib/wl/wl4
+      latest: false
+
+  purge:
+    needs: build
+    if: >-
+      !cancelled() && (
+        github.event_name == 'push' && needs.build.result == 'success' ||
+        github.event.action == 'closed' && !github.event.pull_request.merged)
+    uses: unity-desktop/workflows/.github/workflows/purge-deb.yaml@main
+    with:
+      path: lib/wl/wl4
