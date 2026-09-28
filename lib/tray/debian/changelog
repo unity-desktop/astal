@@ -1,0 +1,8 @@
+astal-tray (0~git20260923.cbcd9f4-1) stonking; urgency=medium
+
+  * Initial packaging, from the unity-desktop/astal fork (DEP-14 layout:
+    debian/ lives beside the library on the ubuntu/latest branch).
+  * Upstream publishes no release tags; built from upstream commit cbcd9f4,
+    the same snapshot as the other astal libraries in this suite.
+
+ -- Muqtadir <contact@muqtxdir.com>  Mon, 28 Sep 2026 05:45:00 +0530

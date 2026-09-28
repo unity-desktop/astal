@@ -1,0 +1,72 @@
+Source: astal-tray
+Section: libs
+Priority: optional
+Maintainer: Muqtadir <contact@muqtxdir.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-sequence-gir,
+ meson (>= 0.63.0),
+ ninja-build,
+ pkgconf,
+ valac,
+ valadoc,
+ graphviz,
+ gobject-introspection,
+ libgirepository-2.0-dev,
+ libgirepository1.0-dev,
+ libglib2.0-dev,
+ libappmenu-glib-translator-dev,
+ libgdk-pixbuf-2.0-dev,
+ libjson-glib-dev,
+Standards-Version: 4.7.0
+Homepage: https://github.com/aylur/astal
+Rules-Requires-Root: no
+Vcs-Browser: https://github.com/unity-desktop/astal/tree/ubuntu/latest/lib/tray
+Vcs-Git: https://github.com/unity-desktop/astal.git -b ubuntu/latest [lib/tray]
+
+Package: libastal-tray0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: StatusNotifierItem system tray library
+ Astal is a library collection for building desktop shells. This package
+ contains the shared library.
+
+Package: libastal-tray-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Provides: ${gir:Provides}
+Depends:
+ libastal-tray0 (= ${binary:Version}),
+ gir1.2-astaltray-0.1 (= ${binary:Version}),
+ libglib2.0-dev,
+ libappmenu-glib-translator-dev,
+ libgdk-pixbuf-2.0-dev,
+ libjson-glib-dev,
+ ${gir:Depends},
+ ${misc:Depends},
+Description: StatusNotifierItem system tray library (development files)
+ Astal is a library collection for building desktop shells.
+ .
+ This package contains the headers, the pkg-config file, the GIR XML and the
+ Vala bindings.
+
+Package: gir1.2-astaltray-0.1
+Section: introspection
+Architecture: any
+Multi-Arch: same
+Depends: libastal-tray0 (= ${binary:Version}), ${gir:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Description: GObject introspection data for astal-tray
+ StatusNotifierItem system tray library.
+ .
+ This package contains the introspection typelib, for language bindings that
+ load it at run time.
+
+Package: astal-tray
+Section: utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: StatusNotifierItem system tray library (command-line client)
+ Astal is a library collection for building desktop shells. This package
+ contains the command-line client.
